@@ -27,7 +27,7 @@ const CameraControls = forwardRef<CameraControlsHandle>((_, ref) => {
     }
   }))
 
-  return <OrbitControls ref={controlsRef} enablePan={true} enableZoom={true} enableRotate={true} />
+  return <OrbitControls ref={controlsRef} enablePan={true} enableZoom={true} enableRotate={true} dampingFactor={0.05} enableDamping={true} minDistance={10} maxDistance={500} />
 })
 
 CameraControls.displayName = 'CameraControls'

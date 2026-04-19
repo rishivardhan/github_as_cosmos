@@ -1,4 +1,5 @@
 import { useRef, useMemo } from 'react'
+import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
 interface GalaxyGuideProps {
@@ -35,9 +36,16 @@ const GalaxyGuide = ({ galaxyPositions, galaxyColors }: GalaxyGuideProps) => {
     return geometry
   }, [galaxyPositions, galaxyColors])
 
+  useFrame((state) => {
+    if (linesRef.current) {
+      const pulse = 0.2 + Math.sin(state.clock.elapsedTime * 0.5) * 0.1
+      ;(linesRef.current.material as THREE.LineBasicMaterial).opacity = pulse
+    }
+  })
+
   return (
     <lineSegments ref={linesRef} geometry={lineGeometry}>
-      <lineBasicMaterial color="#ffffff" vertexColors linewidth={1} transparent opacity={0.3} />
+      <lineBasicMaterial vertexColors transparent />
     </lineSegments>
   )
 }

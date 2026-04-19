@@ -63,11 +63,12 @@ const CosmicScene = ({ onHover }: CosmicSceneProps) => {
 
   return (
     <>
-      <ambientLight intensity={0.2} />
-      <pointLight position={[10, 10, 10]} color="#ffffff" intensity={1} />
-      <pointLight position={[-10, -10, -10]} color="#ffaa88" intensity={0.5} />
-      <pointLight position={[0, 0, -20]} color="#88aaff" intensity={0.3} />
-      <fog attach="fog" args={['#000011', 50, 1000]} />
+      <ambientLight intensity={0.1} />
+      <pointLight position={[10, 10, 10]} color="#ffffff" intensity={0.8} />
+      <pointLight position={[-10, -10, -10]} color="#ffaa88" intensity={0.3} />
+      <pointLight position={[0, 0, -20]} color="#88aaff" intensity={0.2} />
+      <directionalLight position={[0, 0, -1]} color="#ffffff" intensity={0.5} />
+      <fog attach="fog" args={['#000011', 100, 1500]} />
       <StarField />
       <GalaxyGuide galaxyPositions={galaxyPositions} galaxyColors={galaxyColors} />
       {Object.entries(galaxyPositions).map(([location, pos]) => (
@@ -100,12 +101,13 @@ const CosmicScene = ({ onHover }: CosmicSceneProps) => {
         <Text
           key={`label-${galaxy.location}`}
           position={[galaxy.position[0], galaxy.position[1] + 20, galaxy.position[2]]}
-          fontSize={5}
+          fontSize={3}
           color={galaxyColors[galaxy.location] || '#ffffff'}
           anchorX="center"
           anchorY="middle"
-          outlineWidth={0.02}
+          outlineWidth={0.01}
           outlineColor="#000000"
+          fillOpacity={0.3}
         >
           {galaxy.location}
         </Text>

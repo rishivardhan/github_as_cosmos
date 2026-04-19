@@ -17,6 +17,24 @@ interface CelestialObjectProps {
   galaxyPosition: [number, number, number]
 }
 
+const Halo = ({ radius, color }: { radius: number, color: string }) => {
+  const haloRef = useRef<THREE.Mesh>(null)
+
+  useFrame((state) => {
+    if (haloRef.current) {
+      const pulse = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.1
+      haloRef.current.scale.setScalar(pulse)
+    }
+  })
+
+  return (
+    <mesh ref={haloRef}>
+      <sphereGeometry args={[radius * 1.5, 32, 32]} />
+      <meshBasicMaterial color={color} transparent opacity={0.1} />
+    </mesh>
+  )
+}
+
 const Moon = ({ positionRef, index, total }: { positionRef: React.MutableRefObject<[number, number, number]>, index: number, total: number }) => {
   const moonRef = useRef<THREE.Mesh>(null)
   const moonOrbitRadius = 2 + index * 0.5
@@ -38,7 +56,7 @@ const Moon = ({ positionRef, index, total }: { positionRef: React.MutableRefObje
   return (
     <mesh ref={moonRef}>
       <sphereGeometry args={[0.5, 32, 32]} />
-      <meshStandardMaterial color="#c0c0c0" emissive="#404040" emissiveIntensity={0.2} />
+      <meshStandardMaterial color="#c0c0c0" emissive="#404040" emissiveIntensity={0.2} roughness={0.8} metalness={0.1} />
     </mesh>
   )
 }
@@ -80,6 +98,7 @@ const CelestialObject = ({ repo, onHover, galaxyPosition }: CelestialObjectProps
           metalness={0.4}
         />
       </mesh>
+      <Halo radius={repo.radius} color={repo.color} />
       {moons.map((_, index) => (
         <Moon key={index} positionRef={positionRef} index={index} total={moons.length} />
       ))}
